@@ -6,23 +6,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>EventList</title>
+
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <h1>EventList App</h1>
-  <button id="add-event-btn">Add New Event</button>
-  
-  <table>
-    <thead>
-      <tr>
-        <th>Event</th>
-        <th>Start</th>
-        <th>End</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody id="event-tbody"></tbody>
-  </table>
+  <div class="whole-wrapper">
+    <h1>EventList App</h1>
+    <div class="btn-style">
+      <button id="add-event-btn">Add New Event</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Event</th>
+          <th>Start</th>
+          <th>End</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="event-tbody"></tbody>
+    </table>
+
+
+  </div>
 
   <script src="index.js"></script>
 </body>

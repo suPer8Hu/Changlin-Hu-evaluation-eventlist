@@ -1,0 +1,24 @@
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+th, td {
+  padding: 10px 14px;
+  text-align: left;
+}
+
+#add-event-btn {
+    background: #0d6efd;
+    color: #ffffff;
+    border-radius: 5px;
+}
+
+.btn-style{
+    text-align: center;
+}
+
+.whole-wrapper{
+    width: 800px;
+    margin: 0 auto;
+}
