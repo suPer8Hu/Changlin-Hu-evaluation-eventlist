@@ -31,7 +31,7 @@ const eventListAPIs = (function () {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(updateEvent),
+            body: JSON.stringify(updatedEvent),
         }).then(res => res.json());
     }
 
@@ -122,6 +122,23 @@ class EventListView {
         const r = document.getElementById(id);
         r && r.remove();
     }
+
+
+    editEvent(tr) {
+        const id = tr.getAttribute("id");
+        const title = tr.children[0].textContent;
+        const start = tr.children[1].textContent;
+        const end = tr.children[2].textContent;
+        tr.classList.add("editor-row");
+        tr.innerHTML = `
+            <td><input type="text"  id="edit-title"  value="${title}"></td>
+            <td><input type="date"  id="edit-start" value="${start}"></td>
+            <td><input type="date"  id="edit-end"   value="${end}"></td>
+            <td>
+            <button class="save-btn"    data-id="${id}">💾</button>
+            <button class="cancel-btn"  data-id="${id}">❌</button>
+            </td>`;
+    }
 }
 
 class EventListController {
@@ -194,7 +211,47 @@ class EventListController {
     }
 
     setUpEditEvent() {
+        this.view.eventTableBody.addEventListener("click", async (e) => {
+            const elem = e.target;
+            const id = elem.dataset.id;
 
+            if (elem.classList.contains("event__edit-btn")) {
+                const r = document.getElementById(id);
+                this.view.editEvent(r);
+                return;
+            }
+
+            if (elem.classList.contains("save-btn")) {
+                const row = document.getElementById(id);
+                const title = row.querySelector("#edit-title").value.trim();
+                const start = row.querySelector("#edit-start").value;
+                const end   = row.querySelector("#edit-end").value;
+                if (!title || !start || !end) {
+                    return alert("All fields required");
+                }
+
+                const updated = await eventListAPIs.updateEvent(id, {title, start, end});
+                this.model.deleteEvent();
+                this.model.addEvent(updated);
+
+                this.view.removeDataRow(id);
+                this.view.renderNewEvent(updated);
+                return;
+            }
+
+            if (elem.classList.contains("cancel-btn")) {
+                let originData = null;
+                for(const eve of this.model.getEvents()) {
+                    if (eve.id == id) {
+                        originData = eve;
+                        break;
+                    }
+                }
+
+                this.view.removeDataRow(id);
+                this.view.renderNewEvent(originData);
+            }
+        });
     }
 }
 
